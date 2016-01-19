@@ -1,0 +1,84 @@
+// Irrlicht Engine Obstacle Models Test
+
+#include <iostream>
+#include </home/jerry/testing/irrlicht/include/irrlicht.h>
+
+
+
+using namespace std;
+using namespace irr;
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
+
+
+
+int main()
+{
+    IrrlichtDevice *device =
+        createDevice(video::EDT_SOFTWARE, dimension2d<u32>(1280, 960), 16,
+                     false, false, false, 0);
+    if (!device)
+        return 1;
+
+    device->setWindowCaption(L"Hello, World! - Irrlicht Engine Test");
+
+    IVideoDriver*driver = device->getVideoDriver();
+    ISceneManager* smgr = device->getSceneManager();
+    IGUIEnvironment* guienv = device->getGUIEnvironment();
+
+    guienv->addStaticText(L"Hello, world! This is the Irrlicht Software Renderer", rect<s32>(10, 10, 260, 22), true);
+
+    IAnimatedMesh* mesh = smgr->getMesh("objects/objects.3ds");
+    if (!mesh)
+    {
+        device->drop();
+        return 1;
+    }
+    IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
+
+    if (node)
+    {
+        node->setMaterialFlag(EMF_LIGHTING, false);
+        node->setMD2Animation(scene::EMAT_STAND);
+		node->setScale(core::vector3df(20,20,20));
+        //node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
+    }
+
+
+
+
+    smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
+	device->getCursorControl()->setVisible(false);
+
+
+    //smgr->addCameraSceneNode(0,vector3df(0, 30, -40), vector3df(0,5,0));
+	int lastFPS = -1;
+
+    while (device->run())
+    {
+        driver->beginScene(true, true, SColor(255, 100, 101,140));
+
+        smgr->drawAll();
+        guienv->drawAll();
+
+        driver->endScene();
+        int fps = driver->getFPS();
+
+			if (lastFPS != fps)
+			{
+				core::stringw str = L"Robosub Simulator[";
+				str += driver->getName();
+				str += "] FPS:";
+				str += fps;
+
+				device->setWindowCaption(str.c_str());
+				lastFPS = fps;
+			}
+    }
+
+    device->drop();
+    return 0;
+}
