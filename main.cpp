@@ -1,7 +1,7 @@
 // Irrlicht Engine Obstacle Models Test
 
 #include <iostream>
-#include </home/jerry/testing/irrlicht/include/irrlicht.h>
+#include <irrlicht.h>
 
 
 
@@ -18,7 +18,7 @@ using namespace gui;
 int main()
 {
     IrrlichtDevice *device =
-        createDevice(video::EDT_SOFTWARE, dimension2d<u32>(1280, 960), 16,
+        createDevice(video::EDT_OPENGL, dimension2d<u32>(1280, 960), 16,
                      false, false, false, 0);
     if (!device)
         return 1;
