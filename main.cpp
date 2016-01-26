@@ -17,9 +17,15 @@ using namespace gui;
 
 int main()
 {
-    IrrlichtDevice *device =
-        createDevice(video::EDT_OPENGL, dimension2d<u32>(1280, 960), 16,
-                     false, false, false, 0);
+    SIrrlichtCreationParameters params = SIrrlichtCreationParameters();
+    params.AntiAlias = 8;
+    params.DriverType = video::EDT_OPENGL;
+    params.WindowSize = core::dimension2d<u32>(800, 700);
+    IrrlichtDevice *device = createDeviceEx(params);
+
+    //IrrlichtDevice *device =
+    //   createDevice(video::EDT_OPENGL, dimension2d<u32>(1280, 960), 16,
+    //                 false, false, false, 0);
     if (!device)
         return 1;
 
@@ -43,7 +49,7 @@ int main()
     {
         node->setMaterialFlag(EMF_LIGHTING, false);
         node->setMD2Animation(scene::EMAT_STAND);
-		node->setScale(core::vector3df(20,20,20));
+	node->setScale(core::vector3df(20,20,20));
         //node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
     }
 
@@ -52,6 +58,9 @@ int main()
 
     smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
 	device->getCursorControl()->setVisible(false);
+
+    //smgr->setAmbientLight(video::SColorf(1.0,1.0,1.0,1));
+    //ILightSceneNode* light1 = smgr->addLightSceneNode( 0, core::vector3df(20,20,20), video::SColorf(1.0f,1.0f,1.0f), 1.0f, 1 ); 
 
 
     //smgr->addCameraSceneNode(0,vector3df(0, 30, -40), vector3df(0,5,0));
