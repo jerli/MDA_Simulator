@@ -3,13 +3,13 @@
 # and be sure that CXX is set to a valid compiler
 
 # Name of the executable created (.exe will be added automatically if necessary)
-Target := Test
+Target := run
 # List of source files, separated by spaces
 Sources := main.cpp
 # Path to Irrlicht directory, should contain include/ and lib/
 IrrlichtHome := irrlicht
 # Path for the executable. Note that Irrlicht.dll should usually also be there for win32 systems
-BinPath = output
+BinPath = ../MDA_Simulator
 
 # general compiler settings (might need to be set when compiling the lib, too)
 # preprocessor flags, e.g. defines and include paths
