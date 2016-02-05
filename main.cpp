@@ -36,8 +36,16 @@ int main()
     IGUIEnvironment* guienv = device->getGUIEnvironment();
 
     guienv->addStaticText(L"Hello, world! This is the Irrlicht Software Renderer", rect<s32>(10, 10, 260, 22), true);
+    //smgr->setAmbientLight(video::SColorf(0.3,0.3,0.3,1)); 
+    ILightSceneNode* light1 = smgr->addLightSceneNode( 0, core::vector3df(0,500,0), video::SColorf(0.3f,0.3f,0.3f), 50000.0f, 1 ); 
 
-    IAnimatedMesh* mesh = smgr->getMesh("objects/objects.3ds");
+    //driver->setFog(video::SColor(100,72,72,72), EFT_FOG_EXP, 0, 1000, 0.5, true, false);
+    driver->setFog(video::SColor(0, 120,140,160), video::EFT_FOG_LINEAR, 20, 250, .001f, false, false);
+    ISceneNode * scenenode = smgr->getRootSceneNode();
+    scenenode->setMaterialFlag(EMF_FOG_ENABLE, true);
+    light1->setMaterialFlag(EMF_FOG_ENABLE, true);
+
+    IAnimatedMesh* mesh = smgr->getMesh("objects/obstacles.3ds");
     if (!mesh)
     {
         device->drop();
@@ -52,11 +60,37 @@ int main()
 
     if (node)
     {
-        node->setMaterialFlag(EMF_LIGHTING, false);
+        node->setMaterialFlag(EMF_FOG_ENABLE, true);
+        //node->setMaterialFlag(EMF_TRANSPARENT_ADD_COLOR, true); 
+        node->setMaterialFlag(EMF_LIGHTING, true);
         //node->setMD2Animation(scene::EMAT_STAND);
         node->setScale(core::vector3df(20,20,20));
         //node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
     }
+        IAnimatedMesh* roomMesh = smgr->getMesh("objects/stadium.3ds");
+    if (!mesh)
+    {
+        device->drop();
+        return 1;
+    }
+    //IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
+    IMeshSceneNode * roomNode = 0;
+        // The Quake mesh is pickable, but doesn't get highlighted.
+    if (mesh)
+        roomNode = smgr->addOctreeSceneNode(roomMesh->getMesh(0), 0);
+
+
+    if (node)
+    {
+        roomNode->setMaterialFlag(EMF_FOG_ENABLE, true);
+        //node->setMaterialFlag(EMF_TRANSPARENT_ADD_COLOR, true); 
+        roomNode->setMaterialFlag(EMF_LIGHTING, true);
+        //node->setMD2Animation(scene::EMAT_STAND);
+        roomNode->setScale(core::vector3df(20,20,20));
+        //node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
+    }
+
+    //driver->setAmbientLight(SColorf(.3f, .3f, .3f, 1.f));
 
 
     /*
